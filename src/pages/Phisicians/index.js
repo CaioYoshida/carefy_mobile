@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
+import api from '../../services/api';
 
 import {
   SearchContainer,
@@ -14,7 +16,6 @@ import {
 } from './styles';
 
 import Background from '../../components/Background';
-import Input from '../../components/Input';
 
 import emptyProfile from '../../assets/empty-profile.png';
 
@@ -39,6 +40,33 @@ const phisicians = [
 
 const Phisicians = ({ navigation }) => {
   const [search, setSearch] = useState('');
+  const [phisicians, setPhisicians] = useState([]);
+
+  useEffect(() => {
+    async function loadData() {
+      const { data } = await api.get('phisicians');
+
+      setPhisicians(data);
+    }
+
+    loadData();
+  }, []);
+
+  async function handleSearchButton() {
+    if (search === '') {
+      const { data } = await api.get('phisicians');
+
+      setPhisicians(data);
+    } else {
+      try {
+        const { data } = await api.get(`phisicians?search=${search}`)
+
+        setPhisicians(data);
+      } catch (error) {
+        setPhisicians([]);
+      }
+    }
+  };
 
   async function handlePatientButton(phisician_id) {
     navigation.navigate('Phisician', { phisician_id });
@@ -56,12 +84,12 @@ const Phisicians = ({ navigation }) => {
           />
         </SearchInputContainer>
 
-        <SearchButton>
+        <SearchButton onPress={handleSearchButton}>
           <FontAwesome  name="search" color="#fff" size={20} />
         </SearchButton>
       </SearchContainer>
 
-      <PhisicianList
+      {phisicians && <PhisicianList
         data={phisicians}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({item}) => (
@@ -75,7 +103,7 @@ const Phisicians = ({ navigation }) => {
             </PhisicianInformation>
           </PhisicianButton>
         )}
-      />
+      />}
     </Background>
   )
 }

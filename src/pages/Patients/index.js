@@ -39,9 +39,13 @@ const Patients = ({ navigation }) => {
 
       setPatients(data);
     } else {
-      const { data } = await api.get(`patients?search=${search}`)
+      try {
+        const { data } = await api.get(`patients?search=${search}`)
 
-      setPatients(data);
+        setPatients(data);
+      } catch (error) {
+        setPatients([]);
+      }
     }
   }
 
