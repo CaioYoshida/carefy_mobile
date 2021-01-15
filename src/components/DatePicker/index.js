@@ -36,8 +36,8 @@ export default function DatePicker({ initialDate, onChangeDate }) {
     setShow(Platform.OS === 'ios');
     const currentDate = selectedDate || date;
 
-    setDate(subHours(currentDate, 3));
-    onChangeDate(subHours(currentDate, 3));
+    setDate(currentDate);
+    onChangeDate(currentDate);
   }
 
   return (

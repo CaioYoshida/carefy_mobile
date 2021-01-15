@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {
@@ -16,6 +16,13 @@ import DatePicker from '../../components/DatePicker';
 
 const Patients = ({ navigation, route }) => {
   const { appointment_id } = route.params;
+  const [patients, setPatients] = useState([]);
+  const [phisicians, setPhisicians] = useState([]);
+  const [patientSelected, setPatientSelected] = useState('')
+  const [patientId, setPatientId] = useState('')
+  const [phisicianSelected, setPhisicianSelected] = useState('')
+  const [phisicianId, setPhisicianId] = useState('')
+  const [appointmentDate, setAppointmentDate] = useState(new window.Date());
 
   async function handleSaveAppointmentButton() {}
 
@@ -23,13 +30,14 @@ const Patients = ({ navigation, route }) => {
     <Background>
 
       <LabelContainer>
-        <FontAwesome name="user" color="#000" size={20}/>
+        <FontAwesome name='user' color='#000' size={20}/>
         <Label>Patient</Label>
       </LabelContainer>
-      <PickerView
-        selectValue=""
-      >
-        <PickerProfile>
+      <PickerView>
+        <PickerProfile
+          selectedValue={patientSelected}
+          onValueChange={itemValue => setPatientSelected(itemValue)}
+        >
           <PickerProfile.Item label="" value=""/>
           <PickerProfile.Item label="Caio Yoshida" value="Caio"/>
           <PickerProfile.Item label="Juliana Amado" value="Juliana"/>
@@ -40,10 +48,11 @@ const Patients = ({ navigation, route }) => {
         <FontAwesome name="user-md" color="#000" size={20}/>
         <Label>Phisician</Label>
       </LabelContainer>
-      <PickerView
-        selectValue=""
-      >
-        <PickerProfile>
+      <PickerView>
+        <PickerProfile
+          selectedValue={phisicianSelected}
+          onValueChange={itemValue => setPhisicianSelected(itemValue)}
+        >
           <PickerProfile.Item label="" value=""/>
           <PickerProfile.Item label="Joao Carvalho" value="Caio"/>
           <PickerProfile.Item label="Camila Tavares" value="Juliana"/>

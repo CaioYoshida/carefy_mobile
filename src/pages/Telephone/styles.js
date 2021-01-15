@@ -1,5 +1,17 @@
 import styled from 'styled-components';
 
+export const LabelContainer = styled.View`
+  margin-top: 18px;
+  margin-bottom: 4px;
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const Label = styled.Text`
+  margin-left: 8px;
+  font-size: 16px;
+`;
+
 export const TelephoneInputContainer = styled.View`
   margin-top: 10px;
 `;

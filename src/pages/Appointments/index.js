@@ -1,5 +1,5 @@
-import React from 'react';
-import { FlatList } from 'react-native';
+import React, { useState } from 'react';
+import { FlatList, Text } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import Background from '../../components/Background';
@@ -108,8 +108,11 @@ const appointments = [
 ]
 
 const Appointment = ({ navigation }) => {
+  const [searchOption, setSearchOption] = useState('none');
+  const [date, setDate] = useState(new window.Date());
+
   async function hanldeAddAppointmentButton() {
-    navigation.navigate('AppointmentForm', { appointment_id: "" });
+    navigation.navigate('AppointmentForm', { appointment_id: '' });
   }
 
   async function handleAppointmentButton(appointment_id) {
@@ -122,12 +125,21 @@ const Appointment = ({ navigation }) => {
 
       <DatePickerContainer>
         <SearchOptionPickerView>
-          <SearchOptionPicker selectedValue="toDate">
+          <SearchOptionPicker
+            selectedValue={searchOption}
+            onValueChange={itemValue => setSearchOption(itemValue)}
+          >
+            <SearchOptionPicker.Item label="None" value="none"/>
             <SearchOptionPicker.Item label="To" value="toDate"/>
             <SearchOptionPicker.Item label="From" value="fromDate"/>
           </SearchOptionPicker>
         </SearchOptionPickerView>
-        <DatePicker />
+
+        <DatePicker
+          initialDate={date}
+          onChangeDate={setDate}
+        />
+
         <SearchButton>
           <FontAwesome  name="search" color="#fff" size={20} />
         </SearchButton>

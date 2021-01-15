@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import emptyProfile from '../../assets/empty-profile.png';
@@ -17,6 +17,7 @@ import {
 
 const Telephone = ({ navigation, route }) => {
   const { patient_id } = route.params;
+  const [name, setName] = useState('');
 
   async function handleSaveButton() {};
 
@@ -28,7 +29,12 @@ const Telephone = ({ navigation, route }) => {
         <FontAwesome name="user" color="#000" size={20}/>
         <Label>Patient</Label>
       </LabelContainer>
-      <Input placeholder="Full name"/>
+      <Input
+        placeholder='Full name'
+        value={name}
+        onChangeText={text => setName(text)}
+        autoCapitalize='words'
+      />
 
       <ButtonsContainer>
         <SaveButtonContainer

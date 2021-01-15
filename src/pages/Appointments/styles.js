@@ -23,7 +23,7 @@ export const DatePickerContainer = styled.View`
 
 export const SearchOptionPickerView = styled.View`
   height: 54px;
-  width: 100px;
+  width: 120px;
   background: #fff;
   border-radius: 8px;
   border: 0.5px solid #ddd;

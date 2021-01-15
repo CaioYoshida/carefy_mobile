@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {
@@ -15,7 +15,6 @@ import {
 
 import Background from '../../components/Background';
 import AddButton from '../../components/AddButton';
-import Input from '../../components/Input';
 
 import emptyProfile from '../../assets/empty-profile.png';
 
@@ -39,6 +38,8 @@ const patients = [
 ]
 
 const Patients = ({ navigation }) => {
+  const [search, setSearch] = useState('');
+
   async function handleAddPatientButton() {
     navigation.navigate('PatientForm', { patient_id: '' });
   };
@@ -53,7 +54,12 @@ const Patients = ({ navigation }) => {
 
       <SearchContainer>
         <SearchInputContainer>
-          <SearchInput placeholder="Search Patient"/>
+          <SearchInput
+            placeholder='Search Patient'
+            value={search}
+            onChangeText={text => setSearch(text)}
+            autoCapitalize='words'
+          />
         </SearchInputContainer>
 
         <SearchButton>

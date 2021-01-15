@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {
@@ -38,6 +38,8 @@ const phisicians = [
 ]
 
 const Phisicians = ({ navigation }) => {
+  const [search, setSearch] = useState('');
+
   async function handlePatientButton(phisician_id) {
     navigation.navigate('Phisician', { phisician_id });
   };
@@ -46,7 +48,12 @@ const Phisicians = ({ navigation }) => {
     <Background>
       <SearchContainer>
         <SearchInputContainer>
-          <SearchInput placeholder="Search Phisician"/>
+          <SearchInput
+            placeholder="Search Phisician"
+            value={search}
+            onChangeText={text => setSearch(text)}
+            autoCapitalize='words'
+          />
         </SearchInputContainer>
 
         <SearchButton>
