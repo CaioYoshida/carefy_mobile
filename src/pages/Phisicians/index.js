@@ -1,6 +1,11 @@
 import React from 'react';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {
+  SearchContainer,
+  SearchInputContainer,
+  SearchInput,
+  SearchButton,
   PhisicianList,
   PhisicianButton,
   PhisicianInformation,
@@ -39,7 +44,15 @@ const Phisicians = ({ navigation }) => {
 
   return (
     <Background>
-      <Input placeholder="Search"/>
+      <SearchContainer>
+        <SearchInputContainer>
+          <SearchInput placeholder="Search Phisician"/>
+        </SearchInputContainer>
+
+        <SearchButton>
+          <FontAwesome  name="search" color="#fff" size={20} />
+        </SearchButton>
+      </SearchContainer>
 
       <PhisicianList
         data={phisicians}

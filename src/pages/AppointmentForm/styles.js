@@ -1,13 +1,4 @@
-import styled from 'styled-components';
-
-export const ProfileImage = styled.Image`
-  width: 100px;
-  height: 100px;
-  margin-bottom: 10px;
-  border-radius: 50px;
-
-  align-self: center;
-`;
+import styled from 'styled-components/native';
 
 export const LabelContainer = styled.View`
   margin-top: 18px;
@@ -21,13 +12,37 @@ export const Label = styled.Text`
   font-size: 16px;
 `;
 
+export const PickerView = styled.View`
+  padding: 2px;
+  background-color: #fff;
+  border-radius: 8px;
+`;
+
+export const PickerProfile = styled.Picker``;
+
+export const InformationView = styled.View`
+  background-color: #fff;
+  padding: 8px;
+  margin-top: 6px;
+  border-radius: 8px;
+
+  justify-content: center;
+`;
+
+export const PatientName = styled.Text`
+  color: #999;
+  font-weight: bold;
+  margin-left: 8px;
+`;
+
 export const ButtonsContainer = styled.View`
   margin-top: 20px;
   flex-direction: row;
 `;
 
-export const SaveButtonContainer = styled.TouchableOpacity`
+export const EditButtonContainer = styled.TouchableOpacity`
   background-color: #008000;
+  margin: 15px 0;
   height: 50px;
   flex: 1;
   margin: 3px;

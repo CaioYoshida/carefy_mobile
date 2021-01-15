@@ -1,27 +1,17 @@
 import styled from 'styled-components/native';
 
-export const ProfileImage = styled.Image`
-  width: 100px;
-  height: 100px;
-  border-radius: 50px;
-
-  align-self: center;
-`;
-
 export const LabelContainer = styled.View`
   margin-top: 18px;
   margin-bottom: 4px;
   flex-direction: row;
-  justify-content: space-between;
+
+  align-items: center;
 `;
 
 export const Label = styled.Text`
+  margin-left: 8px;
   font-size: 16px;
 `;
-
-export const AddTelephoneButton = styled.TouchableOpacity``;
-
-export const AddTelephoneButtonText = styled.Text``;
 
 export const InformationView = styled.View`
   background-color: #fff;
@@ -33,50 +23,6 @@ export const InformationView = styled.View`
 `;
 
 export const PatientName = styled.Text`
-  color: #999;
-  font-weight: bold;
-  margin-left: 8px;
-`;
-
-export const TelephoneList = styled.FlatList`
-  border-radius: 8px;
-  height: 200px;
-`;
-
-export const TelephoneContainer = styled.View`
-  margin-left: 5px;
-`;
-
-export const TelephoneInformation = styled.View`
-  background-color: #fff;
-  height: 50px;
-  flex: 1;
-  margin: 3px;
-  margin-top: 4px;
-  border-radius: 8px;
-
-  flex-direction: row;
-
-  justify-content: space-between;
-  align-items: center;
-`;
-
-export const TelephoneOptions = styled.View`
-  margin-right: 20px;
-  flex-direction: row;
-`;
-
-export const TelephoneOptionsButton = styled.TouchableOpacity`
-  margin-left: 25px;
-`;
-
-export const TelephoneDescription = styled.Text`
-  color: #000;
-  font-weight: bold;
-  margin-left: 8px;
-`;
-
-export const Telephone = styled.Text`
   color: #999;
   font-weight: bold;
   margin-left: 8px;

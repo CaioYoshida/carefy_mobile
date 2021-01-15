@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import PatientStack from '../routes/PatientStack';
 import PhisicianStack from '../routes/PhisicianStack';
-import Appointments from '../pages/Appointments';
+import AppointmentStack from '../routes/AppointmentStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -32,7 +32,7 @@ export default function MainBottomTab() {
       />
       <Tab.Screen
         name='Appointments'
-        component={Appointments}
+        component={AppointmentStack}
         options={{
           tabBarLabel: 'Appointments'
         }}

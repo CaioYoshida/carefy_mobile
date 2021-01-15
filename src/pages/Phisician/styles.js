@@ -40,7 +40,7 @@ export const Name = styled.Text`
 
 export const TelephoneList = styled.FlatList`
   border-radius: 8px;
-  height: 120px;
+  height: 200px;
 `;
 
 export const TelephoneContainer = styled.View`

@@ -1,6 +1,11 @@
 import React from 'react';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {
+  SearchContainer,
+  SearchInputContainer,
+  SearchInput,
+  SearchButton,
   PatientList,
   PatientButton,
   PatientInformation,
@@ -9,6 +14,7 @@ import {
 } from './styles';
 
 import Background from '../../components/Background';
+import AddButton from '../../components/AddButton';
 import Input from '../../components/Input';
 
 import emptyProfile from '../../assets/empty-profile.png';
@@ -33,13 +39,27 @@ const patients = [
 ]
 
 const Patients = ({ navigation }) => {
+  async function handleAddPatientButton() {
+    navigation.navigate('PatientForm', { patient_id: '' });
+  };
+
   async function handlePatientButton(patient_id) {
     navigation.navigate('Patient', { patient_id });
   };
 
   return (
     <Background>
-      <Input placeholder="Search"/>
+      <AddButton onPress={handleAddPatientButton} />
+
+      <SearchContainer>
+        <SearchInputContainer>
+          <SearchInput placeholder="Search Patient"/>
+        </SearchInputContainer>
+
+        <SearchButton>
+          <FontAwesome  name="search" color="#fff" size={20} />
+        </SearchButton>
+      </SearchContainer>
 
       <PatientList
         data={patients}

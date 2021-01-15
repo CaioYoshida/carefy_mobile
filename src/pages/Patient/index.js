@@ -43,12 +43,6 @@ const telephones = [
     area_code: '16',
     number: '99999-6666',
     description: 'Work'
-  },
-  {
-    id: 4,
-    area_code: '16',
-    number: '99999-5555',
-    description: 'Mobile'
   }
 ]
 
