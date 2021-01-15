@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import api from '../../services/api';
 
 import {
   SearchContainer,
@@ -18,27 +19,31 @@ import AddButton from '../../components/AddButton';
 
 import emptyProfile from '../../assets/empty-profile.png';
 
-const patients = [
-  {
-    id: 1,
-    name: 'Caio'
-  },
-  {
-    id: 2,
-    name: 'Juliana'
-  },
-  {
-    id: 3,
-    name: 'Mara'
-  },
-  {
-    id: 4,
-    name: 'Gabi'
-  }
-]
-
 const Patients = ({ navigation }) => {
   const [search, setSearch] = useState('');
+  const [patients, setPatients] = useState([]);
+
+  useEffect(() => {
+    async function loadData() {
+      const { data } = await api.get('patients');
+
+      setPatients(data);
+    }
+
+    loadData();
+  }, [])
+
+  async function handleSearchButton() {
+    if (search === '') {
+      const { data } = await api.get('patients');
+
+      setPatients(data);
+    } else {
+      const { data } = await api.get(`patients?search=${search}`)
+
+      setPatients(data);
+    }
+  }
 
   async function handleAddPatientButton() {
     navigation.navigate('PatientForm', { patient_id: '' });
@@ -62,7 +67,7 @@ const Patients = ({ navigation }) => {
           />
         </SearchInputContainer>
 
-        <SearchButton>
+        <SearchButton onPress={handleSearchButton}>
           <FontAwesome  name="search" color="#fff" size={20} />
         </SearchButton>
       </SearchContainer>
