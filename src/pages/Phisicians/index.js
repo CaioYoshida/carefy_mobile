@@ -16,25 +16,25 @@ import emptyProfile from '../../assets/empty-profile.png';
 const phisicians = [
   {
     id: 1,
-    name: 'Caio'
+    name: 'Joao'
   },
   {
     id: 2,
-    name: 'Juliana'
+    name: 'Augusto'
   },
   {
     id: 3,
-    name: 'Mara'
+    name: 'Maria'
   },
   {
     id: 4,
-    name: 'Gabi'
+    name: 'Camila'
   }
 ]
 
 const Phisicians = ({ navigation }) => {
-  async function handlePatientButton(patient_id) {
-    navigation.navigate('Patient', { patient_id });
+  async function handlePatientButton(phisician_id) {
+    navigation.navigate('Phisician', { phisician_id });
   };
 
   return (
