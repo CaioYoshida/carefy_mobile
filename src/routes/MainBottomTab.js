@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import Patients from '../pages/Patients';
+import PatientStack from '../routes/PatientStack';
 import Phisicians from '../pages/Phisicians';
 import Appointments from '../pages/Appointments';
 
@@ -18,7 +18,7 @@ export default function MainBottomTab() {
     >
       <Tab.Screen
         name='Patients'
-        component={Patients}
+        component={PatientStack}
         options={{
           tabBarLabel: 'Patients'
         }}

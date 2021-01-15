@@ -1,11 +1,13 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Text } from 'react-native';
+
+import Background from '../../components/Background';
 
 const Appointment = () => {
   return (
-    <View>
+    <Background>
       <Text>Appointment</Text>
-    </View>
+    </Background>
   )
 }
 
