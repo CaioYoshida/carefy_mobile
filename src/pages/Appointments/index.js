@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
-import { FlatList, Text } from 'react-native';
+import React, { useState, useEffect, useMemo } from 'react';
+import { FlatList } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { format } from 'date-fns';
+import pt from 'date-fns/locale/pt';
+
+import api from '../../services/api';
 
 import Background from '../../components/Background';
 import DatePicker from '../../components/DatePicker';
@@ -20,96 +24,28 @@ import {
   Date
 } from './styles';
 
-const appointments = [
-  {
-    id: 1,
-    phisician: {
-      id: 1,
-      name: 'Joao Carvalho'
-    },
-    patient: {
-      id: 1,
-      name: 'Caio Yoshida'
-    },
-    start: '25/01/2021 15:00'
-  },
-  {
-    id: 2,
-    phisician: {
-      id: 2,
-      name: 'Camila Tavares'
-    },
-    patient: {
-      id: 2,
-      name: 'Juliana Amado'
-    },
-    start: '04/02/2021 17:00'
-  },
-  {
-    id: 3,
-    phisician: {
-      id: 3,
-      name: 'Camila Tavares'
-    },
-    patient: {
-      id: 3,
-      name: 'Juliana Amado'
-    },
-    start: '04/02/2021 17:00'
-  },
-  {
-    id: 4,
-    phisician: {
-      id: 4,
-      name: 'Camila Tavares'
-    },
-    patient: {
-      id: 4,
-      name: 'Juliana Amado'
-    },
-    start: '04/02/2021 17:00'
-  },
-  {
-    id: 5,
-    phisician: {
-      id: 5,
-      name: 'Camila Tavares'
-    },
-    patient: {
-      id: 5,
-      name: 'Juliana Amado'
-    },
-    start: '04/02/2021 17:00'
-  },
-  {
-    id: 6,
-    phisician: {
-      id: 6,
-      name: 'Camila Tavares'
-    },
-    patient: {
-      id: 6,
-      name: 'Juliana Amado'
-    },
-    start: '04/02/2021 17:00'
-  },
-  {
-    id: 7,
-    phisician: {
-      id: 7,
-      name: 'Camila Tavares'
-    },
-    patient: {
-      id: 7,
-      name: 'Juliana Amado'
-    },
-    start: '04/02/2021 17:00'
-  }
-]
-
 const Appointment = ({ navigation }) => {
   const [searchOption, setSearchOption] = useState('none');
+  const [appointments, setAppointments] = useState([]);
   const [date, setDate] = useState(new window.Date());
+
+  useEffect(() => {
+    async function loadData() {
+      const { data } = await api.get('appointments');
+
+      setAppointments(data);
+    }
+
+    loadData();
+  }, [])
+
+  const dateFormatted = useMemo(
+    () =>
+      format(date, "MMMM dd',' yyyy", {
+        locale: pt,
+      }),
+    [date],
+  );
 
   async function hanldeAddAppointmentButton() {
     navigation.navigate('AppointmentForm', { appointment_id: '' });
@@ -156,16 +92,16 @@ const Appointment = ({ navigation }) => {
             <InformationContainer>
               <PatientContainer>
                 <FontAwesome name="user" color="#000" size={20} />
-                <Name>{item.patient.name}</Name>
+                <Name>{item.patient_id}</Name>
               </PatientContainer>
               <PhisicianContainer>
                 <FontAwesome name="user-md" color="#000" size={20} />
-                <Name>{item.phisician.name}</Name>
+                <Name>{item.phisician_id}</Name>
               </PhisicianContainer>
             </InformationContainer>
 
             <DateContainer>
-              <Date>{item.start}</Date>
+              <Date>{dateFormatted}</Date>
             </DateContainer>
           </AppointmentContainer>
         )}
