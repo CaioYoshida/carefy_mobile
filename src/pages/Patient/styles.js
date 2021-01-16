@@ -40,21 +40,23 @@ export const PatientName = styled.Text`
 
 export const TelephoneList = styled.FlatList``;
 
-export const TelephoneContainer = styled.View`
-  margin-left: 5px;
-`;
-
 export const TelephoneInformation = styled.View`
   background-color: #fff;
-  height: 50px;
+  height: ${props => props.isPreferred ? '70px': '50px'};
   margin: 3px;
   margin-top: 4px;
   border-radius: 8px;
+  border-width: 2px;
+  border-color: ${props => props.isPreferred ? '#4c41f2': '#fff'};
 
   flex-direction: row;
 
   justify-content: space-between;
   align-items: center;
+`;
+
+export const TelephoneContainer = styled.View`
+  margin-left: 5px;
 `;
 
 export const TelephoneOptions = styled.View`
@@ -64,6 +66,12 @@ export const TelephoneOptions = styled.View`
 
 export const TelephoneOptionsButton = styled.TouchableOpacity`
   margin-left: 25px;
+`;
+
+export const PreferredTelephoneText = styled.Text`
+  color: #000;
+  font-style: italic;
+  margin-left: 8px;
 `;
 
 export const TelephoneDescription = styled.Text`

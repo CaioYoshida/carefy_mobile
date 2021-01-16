@@ -17,6 +17,7 @@ import {
   TelephoneInformation,
   TelephoneOptions,
   TelephoneOptionsButton,
+  PreferredTelephoneText,
   TelephoneDescription,
   Telephone,
   ButtonsContainer,
@@ -113,8 +114,11 @@ const Patients = ({ navigation, route }) => {
         data={telephones}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <TelephoneInformation>
+          <TelephoneInformation
+            isPreferred={item.id === patientInformation.preferred_phone}
+          >
             <TelephoneContainer>
+              {item.id === patientInformation.preferred_phone ? <PreferredTelephoneText>Preferred</PreferredTelephoneText> : undefined}
               <TelephoneDescription>{item.description}</TelephoneDescription>
               <Telephone>{`${item.area_code} ${item.number}`}</Telephone>
             </TelephoneContainer>
