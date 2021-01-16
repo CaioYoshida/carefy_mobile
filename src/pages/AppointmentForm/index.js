@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
+import api from '../../services/api';
 
 import {
   LabelContainer,
@@ -24,7 +26,45 @@ const Patients = ({ navigation, route }) => {
   const [phisicianId, setPhisicianId] = useState('')
   const [appointmentDate, setAppointmentDate] = useState(new window.Date());
 
-  async function handleSaveAppointmentButton() {}
+  useEffect(() => {
+    async function loadData() {
+      const patientsResponse = await api.get('patients');
+      const phisiciansResponse = await api.get('phisicians');
+
+      setPatients(patientsResponse.data);
+      setPhisicians(phisiciansResponse.data);
+
+      if (appointment_id !== '') {
+        const appointmentResponse = await api.get(`appointments/${appointment_id}`);
+
+        setPatientSelected(appointmentResponse.data.patient_id);
+        setPhisicianSelected(appointmentResponse.data.phisician_id);
+        setAppointmentDate(appointmentResponse.data.start);
+      }
+    }
+
+    loadData();
+  }, [])
+
+  async function handleSaveAppointmentButton() {
+    const appointmentData = {
+      patient_id: patientSelected,
+      phisician_id: phisicianSelected,
+      start: appointmentDate
+    };
+
+    if (appointment_id !== '') {
+      await api.put(`appointments/${appointment_id}`, appointmentData);
+
+      navigation.goBack();
+    } else {
+      await api.post('appointments', appointmentData);
+
+      setPatientSelected('');
+      setPhisicianSelected('');
+      setAppointmentDate(new window.Date());
+    }
+  }
 
   return (
     <Background>
@@ -39,8 +79,13 @@ const Patients = ({ navigation, route }) => {
           onValueChange={itemValue => setPatientSelected(itemValue)}
         >
           <PickerProfile.Item label="" value=""/>
-          <PickerProfile.Item label="Caio Yoshida" value="Caio"/>
-          <PickerProfile.Item label="Juliana Amado" value="Juliana"/>
+          {patients && patients.map(patient => (
+            <PickerProfile.Item
+              key={patient.id}
+              label={patient.name}
+              value={patient.id}
+            />
+          ))}
         </PickerProfile>
       </PickerView>
 
@@ -54,15 +99,23 @@ const Patients = ({ navigation, route }) => {
           onValueChange={itemValue => setPhisicianSelected(itemValue)}
         >
           <PickerProfile.Item label="" value=""/>
-          <PickerProfile.Item label="Joao Carvalho" value="Caio"/>
-          <PickerProfile.Item label="Camila Tavares" value="Juliana"/>
+          {phisicians && phisicians.map(phisician => (
+            <PickerProfile.Item
+              key={phisician.id}
+              label={phisician.name}
+              value={phisician.id}
+            />
+          ))}
         </PickerProfile>
       </PickerView>
 
       <LabelContainer>
         <Label>Date</Label>
       </LabelContainer>
-      <DatePicker />
+      <DatePicker
+        initialDate={new Date(appointmentDate)}
+        onChangeDate={setAppointmentDate}
+      />
 
       <ButtonsContainer>
         <EditButtonContainer
