@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useIsFocused } from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
@@ -19,6 +20,7 @@ import {
 import Background from '../../components/Background';
 
 const Patients = ({ navigation, route }) => {
+  const isFocused = useIsFocused();
   const { appointment_id } = route.params;
   const [appointment, setAppointment] = useState();
 
@@ -30,7 +32,7 @@ const Patients = ({ navigation, route }) => {
     }
 
     loadData();
-  }, []);
+  }, [isFocused]);
 
   async function handleEditAppointmentButton() {
     navigation.navigate('AppointmentForm', { appointment_id })

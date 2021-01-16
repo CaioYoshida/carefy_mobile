@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useIsFocused } from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import api from '../../services/api';
@@ -28,6 +29,7 @@ import Background from '../../components/Background';
 import emptyProfile from '../../assets/empty-profile.png';
 
 const Patients = ({ navigation, route }) => {
+  const isFocused = useIsFocused();
   const { patient_id } = route.params;
   const [patientName, setPatientName] = useState('');
   const [telephones, setTelephones] = useState([]);
@@ -48,7 +50,7 @@ const Patients = ({ navigation, route }) => {
     }
 
     loadData();
-  }, []);
+  }, [isFocused]);
 
   async function handleAddTelephoneButton(telephone_id) {
     navigation.navigate('Telephone', { telephone_id, owner_id: patient_id });

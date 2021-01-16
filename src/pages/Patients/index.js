@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useIsFocused } from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import api from '../../services/api';
 
@@ -20,6 +21,7 @@ import AddButton from '../../components/AddButton';
 import emptyProfile from '../../assets/empty-profile.png';
 
 const Patients = ({ navigation }) => {
+  const isFocused = useIsFocused();
   const [search, setSearch] = useState('');
   const [patients, setPatients] = useState([]);
 
@@ -31,7 +33,7 @@ const Patients = ({ navigation }) => {
     }
 
     loadData();
-  }, [])
+  }, [isFocused])
 
   async function handleSearchButton() {
     if (search === '') {

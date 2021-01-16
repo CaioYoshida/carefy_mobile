@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
@@ -25,6 +26,7 @@ import {
 } from './styles';
 
 const Appointment = ({ navigation }) => {
+  const isFocused = useIsFocused();
   const [searchOption, setSearchOption] = useState('none');
   const [appointments, setAppointments] = useState([]);
   const [date, setDate] = useState(new window.Date());
@@ -37,7 +39,7 @@ const Appointment = ({ navigation }) => {
     }
 
     loadData();
-  }, []);
+  }, [isFocused]);
 
   async function handleSearchButton() {
     const formattedSearchDate = format(date, "yyyy'-'MM'-'dd");
