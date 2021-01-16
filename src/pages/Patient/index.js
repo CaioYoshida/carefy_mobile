@@ -35,10 +35,16 @@ const Patients = ({ navigation, route }) => {
   useEffect(() => {
     async function loadData() {
       const patientResponse = await api.get(`patients/${patient_id}`);
-      const telephoneResponse = await api.get(`telephones?owner=${patient_id}`);
 
       setPatientName(patientResponse.data.name);
-      setTelephones(telephoneResponse.data);
+
+      try {
+        const telephoneResponse = await api.get(`telephones?owner=${patient_id}`);
+
+        setTelephones(telephoneResponse.data);
+      } catch (error) {
+        setTelephones([]);
+      }
     }
 
     loadData();

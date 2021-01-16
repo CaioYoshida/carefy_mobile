@@ -19,25 +19,6 @@ import Background from '../../components/Background';
 
 import emptyProfile from '../../assets/empty-profile.png';
 
-const phisicians = [
-  {
-    id: 1,
-    name: 'Joao'
-  },
-  {
-    id: 2,
-    name: 'Augusto'
-  },
-  {
-    id: 3,
-    name: 'Maria'
-  },
-  {
-    id: 4,
-    name: 'Camila'
-  }
-]
-
 const Phisicians = ({ navigation }) => {
   const [search, setSearch] = useState('');
   const [phisicians, setPhisicians] = useState([]);
