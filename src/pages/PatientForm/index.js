@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { Text } from 'react-native';
 
 import api from '../../services/api';
 
@@ -12,6 +13,8 @@ import {
   ProfileImage,
   LabelContainer,
   Label,
+  PickerView,
+  PickerTelephone,
   ButtonsContainer,
   SaveButtonContainer,
   ButtonText,
@@ -19,16 +22,28 @@ import {
 
 const Telephone = ({ navigation, route }) => {
   const { patient_id } = route.params;
-  const [patientInformation, setPatientInformation] = useState();
   const [name, setName] = useState('');
+  const [telephones, setTelephones] = useState([]);
+  const [
+    preferredTelephoneSelected,
+    setPreferredTelephoneSelected
+  ] = useState('');
 
   useEffect(() => {
     async function loadData() {
       if (patient_id !== '') {
         const { data } = await api.get(`patients/${patient_id}`);
 
-        setPatientInformation(data);
         setName(data.name);
+        setPreferredTelephoneSelected(data.preferred_phone);
+      }
+
+      try {
+        const telephoneResponse = await api.get(`telephones?owner=${patient_id}`);
+
+        setTelephones(telephoneResponse.data);
+      } catch (error) {
+        setTelephones([]);
       }
     }
 
@@ -39,14 +54,14 @@ const Telephone = ({ navigation, route }) => {
     if (patient_id !== '') {
       await api.put(`patients/${patient_id}`, {
         name,
-        preferred_phone: patientInformation.preferred_phone
+        preferred_phone: preferredTelephoneSelected,
       });
 
       navigation.goBack();
     } else {
       await api.post('patients', {
         name,
-        preferred_phone: ''
+        preferred_phone: '',
       });
 
       setName('');
@@ -67,6 +82,26 @@ const Telephone = ({ navigation, route }) => {
         onChangeText={text => setName(text)}
         autoCapitalize='words'
       />
+
+      <LabelContainer>
+        <FontAwesome name="phone" color="#000" size={20}/>
+        <Label>Preferred phone</Label>
+      </LabelContainer>
+      <PickerView>
+        {telephones && <PickerTelephone
+          selectedValue={preferredTelephoneSelected}
+          onValueChange={itemValue => setPreferredTelephoneSelected(itemValue)}
+        >
+          <PickerTelephone.Item label="" value=""/>
+          {telephones.map(telephone => (
+            <PickerTelephone.Item
+              key={telephone.id}
+              label={`${telephone.description} - ${telephone.area_code} ${telephone.number}`}
+              value={telephone.id}
+            />
+          ))}
+        </PickerTelephone>}
+      </PickerView>
 
       <ButtonsContainer>
         <SaveButtonContainer

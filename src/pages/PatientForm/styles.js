@@ -21,6 +21,14 @@ export const Label = styled.Text`
   font-size: 16px;
 `;
 
+export const PickerView = styled.View`
+  padding: 2px;
+  background-color: #fff;
+  border-radius: 8px;
+`;
+
+export const PickerTelephone = styled.Picker``;
+
 export const ButtonsContainer = styled.View`
   margin-top: 20px;
   flex-direction: row;
