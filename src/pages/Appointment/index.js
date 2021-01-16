@@ -38,6 +38,12 @@ const Patients = ({ navigation, route }) => {
     navigation.navigate('AppointmentForm', { appointment_id })
   }
 
+  async function handleDeleteAppointmentButton() {
+    await api.delete(`appointments/${appointment_id}`);
+
+    navigation.goBack();
+  }
+
   return (
     <Background>
 
@@ -48,7 +54,7 @@ const Patients = ({ navigation, route }) => {
             <Label>Patient</Label>
           </LabelContainer>
           <InformationView>
-            <PatientName>{appointment.patient_id}</PatientName>
+            <PatientName>{appointment.patient.name}</PatientName>
           </InformationView>
 
           <LabelContainer>
@@ -56,7 +62,7 @@ const Patients = ({ navigation, route }) => {
             <Label>Phisician</Label>
           </LabelContainer>
           <InformationView>
-            <PatientName>{appointment.phisician_id}</PatientName>
+            <PatientName>{appointment.phisician.name}</PatientName>
           </InformationView>
 
           <LabelContainer>
@@ -78,7 +84,10 @@ const Patients = ({ navigation, route }) => {
           <ButtonText>Edit</ButtonText>
         </EditButtonContainer>
 
-        <DeleteButtonContainer style={{ elevation: 2 }}>
+        <DeleteButtonContainer
+          style={{ elevation: 2 }}
+          onPress={handleDeleteAppointmentButton}
+        >
           <ButtonText>Delete</ButtonText>
         </DeleteButtonContainer>
       </ButtonsContainer>

@@ -111,11 +111,11 @@ const Appointment = ({ navigation }) => {
             <InformationContainer>
               <PatientContainer>
                 <FontAwesome name="user" color="#000" size={20} />
-                <Name>{item.patient_id}</Name>
+                <Name>{item.patient.name}</Name>
               </PatientContainer>
               <PhisicianContainer>
                 <FontAwesome name="user-md" color="#000" size={20} />
-                <Name>{item.phisician_id}</Name>
+                <Name>{item.phisician.name}</Name>
               </PhisicianContainer>
             </InformationContainer>
 

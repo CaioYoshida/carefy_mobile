@@ -21,9 +21,7 @@ const Patients = ({ navigation, route }) => {
   const [patients, setPatients] = useState([]);
   const [phisicians, setPhisicians] = useState([]);
   const [patientSelected, setPatientSelected] = useState('')
-  const [patientId, setPatientId] = useState('')
   const [phisicianSelected, setPhisicianSelected] = useState('')
-  const [phisicianId, setPhisicianId] = useState('')
   const [appointmentDate, setAppointmentDate] = useState(new window.Date());
 
   useEffect(() => {
