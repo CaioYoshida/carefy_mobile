@@ -38,10 +38,7 @@ export const PatientName = styled.Text`
   margin-left: 8px;
 `;
 
-export const TelephoneList = styled.FlatList`
-  border-radius: 8px;
-  height: 200px;
-`;
+export const TelephoneList = styled.FlatList``;
 
 export const TelephoneContainer = styled.View`
   margin-left: 5px;
@@ -50,7 +47,6 @@ export const TelephoneContainer = styled.View`
 export const TelephoneInformation = styled.View`
   background-color: #fff;
   height: 50px;
-  flex: 1;
   margin: 3px;
   margin-top: 4px;
   border-radius: 8px;

@@ -36,7 +36,6 @@ export const PhisicianList = styled.FlatList`
 export const PhisicianButton = styled.TouchableOpacity`
   background-color: #fbfbfb;
   height: 50px;
-  flex: 1;
   margin: 4px;
   margin-top: 10px;
   border-radius: 8px;

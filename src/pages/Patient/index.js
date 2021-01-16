@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useIsFocused } from '@react-navigation/native';
+import { FlatList } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import api from '../../services/api';
