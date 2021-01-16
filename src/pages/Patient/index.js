@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
+import api from '../../services/api';
 
 import {
   ProfileImage,
@@ -25,29 +27,22 @@ import {
 import Background from '../../components/Background';
 import emptyProfile from '../../assets/empty-profile.png';
 
-const telephones = [
-  {
-    id: 1,
-    area_code: '16',
-    number: '99999-8888',
-    description: 'Home'
-  },
-  {
-    id: 2,
-    area_code: '16',
-    number: '99999-7777',
-    description: 'Home'
-  },
-  {
-    id: 3,
-    area_code: '16',
-    number: '99999-6666',
-    description: 'Work'
-  }
-]
-
 const Patients = ({ navigation, route }) => {
   const { patient_id } = route.params;
+  const [patientName, setPatientName] = useState('');
+  const [telephones, setTelephones] = useState([]);
+
+  useEffect(() => {
+    async function loadData() {
+      const patientResponse = await api.get(`patients/${patient_id}`);
+      const telephoneResponse = await api.get(`telephones?owner=${patient_id}`);
+
+      setPatientName(patientResponse.data.name);
+      setTelephones(telephoneResponse.data);
+    }
+
+    loadData();
+  }, []);
 
   async function handleAddTelephoneButton(telephone_id) {
     navigation.navigate('Telephone', { telephone_id });
@@ -72,7 +67,7 @@ const Patients = ({ navigation, route }) => {
       </LabelContainer>
 
       <InformationView>
-        <PatientName>Caio Yoshida</PatientName>
+        <PatientName>{patientName}</PatientName>
       </InformationView>
 
       <LabelContainer>

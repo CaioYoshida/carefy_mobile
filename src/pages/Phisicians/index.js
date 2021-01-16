@@ -89,7 +89,7 @@ const Phisicians = ({ navigation }) => {
         </SearchButton>
       </SearchContainer>
 
-      {phisicians && <PhisicianList
+      <PhisicianList
         data={phisicians}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({item}) => (
@@ -103,7 +103,7 @@ const Phisicians = ({ navigation }) => {
             </PhisicianInformation>
           </PhisicianButton>
         )}
-      />}
+      />
     </Background>
   )
 }
