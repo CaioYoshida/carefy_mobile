@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
+import api from '../../services/api';
 
 import emptyProfile from '../../assets/empty-profile.png';
 
@@ -17,9 +19,37 @@ import {
 
 const Telephone = ({ navigation, route }) => {
   const { patient_id } = route.params;
+  const [patientInformation, setPatientInformation] = useState();
   const [name, setName] = useState('');
 
-  async function handleSaveButton() {};
+  useEffect(() => {
+    async function loadData() {
+      if (patient_id !== '') {
+        const { data } = await api.get(`patients/${patient_id}`);
+
+        setPatientInformation(data);
+        setName(data.name);
+      }
+    }
+
+    loadData();
+  }, []);
+
+  async function handleSaveButton() {
+    if (patient_id !== '') {
+      await api.put(`patients/${patient_id}`, {
+        name,
+        preferred_phone: patientInformation.preferred_phone
+      });
+    } else {
+      await api.post('patients', {
+        name,
+        preferred_phone: ''
+      });
+
+      setName('');
+    }
+  };
 
   return (
     <Background>
