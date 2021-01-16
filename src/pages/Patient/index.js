@@ -33,6 +33,7 @@ const Patients = ({ navigation, route }) => {
   const isFocused = useIsFocused();
   const { patient_id } = route.params;
   const [patientName, setPatientName] = useState('');
+  const [telephonesLength, setTelephonesLength] = useState(0);
   const [telephones, setTelephones] = useState([]);
 
   useEffect(() => {
@@ -45,13 +46,14 @@ const Patients = ({ navigation, route }) => {
         const telephoneResponse = await api.get(`telephones?owner=${patient_id}`);
 
         setTelephones(telephoneResponse.data);
+        setTelephonesLength(telephoneResponse.data.length);
       } catch (error) {
         setTelephones([]);
       }
     }
 
     loadData();
-  }, [isFocused]);
+  }, [isFocused, telephonesLength]);
 
   async function handleAddTelephoneButton(telephone_id) {
     navigation.navigate('Telephone', { telephone_id, owner_id: patient_id });
@@ -61,11 +63,26 @@ const Patients = ({ navigation, route }) => {
     navigation.navigate('Telephone', { telephone_id, owner_id: patient_id });
   };
 
-  async function handleDeleteTelephoneButton() {};
+  async function handleDeleteTelephoneButton(telephone_id) {
+    await api.delete(`telephones/${telephone_id}`);
+
+    setTelephonesLength(telephonesLength - 1);
+  };
 
   async function handleEditPatientButton() {
     navigation.navigate('PatientForm', { patient_id })
   }
+
+  async function handleDeletePatientButton() {
+    telephones.map(async telephone => {
+      await api.delete(`telephones/${telephone.id}`);
+    });
+
+    await api.delete(`patients/${patient_id}`);
+
+    navigation.goBack();
+  };
+
 
   return (
     <Background>
@@ -96,12 +113,14 @@ const Patients = ({ navigation, route }) => {
               <Telephone>{`${item.area_code} ${item.number}`}</Telephone>
             </TelephoneContainer>
             <TelephoneOptions>
-              <TelephoneOptionsButton onPress={
-                () => handleEditTelphoneButton(item.id)
-              }>
+              <TelephoneOptionsButton
+                onPress={() => handleEditTelphoneButton(item.id)}
+              >
                 <FontAwesome name="pencil" size={20} color="#000" />
               </TelephoneOptionsButton>
-              <TelephoneOptionsButton onPress={handleDeleteTelephoneButton}>
+              <TelephoneOptionsButton
+                onPress={() => handleDeleteTelephoneButton(item.id)}
+              >
                 <FontAwesome name="trash" size={20} color="#000" />
               </TelephoneOptionsButton>
             </TelephoneOptions>
@@ -118,7 +137,10 @@ const Patients = ({ navigation, route }) => {
           <ButtonText>Edit</ButtonText>
         </EditButtonContainer>
 
-        <DeleteButtonContainer style={{ elevation: 2 }}>
+        <DeleteButtonContainer
+          style={{ elevation: 2 }}
+          onPress={handleDeletePatientButton}
+        >
           <ButtonText>Delete</ButtonText>
         </DeleteButtonContainer>
       </ButtonsContainer>
