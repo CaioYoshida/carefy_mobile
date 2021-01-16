@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useIsFocused } from '@react-navigation/native';
-import { FlatList } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import api from '../../services/api';
@@ -32,7 +31,7 @@ import emptyProfile from '../../assets/empty-profile.png';
 const Patients = ({ navigation, route }) => {
   const isFocused = useIsFocused();
   const { patient_id } = route.params;
-  const [patientName, setPatientName] = useState('');
+  const [patientInformation, setPatientInformation] = useState('');
   const [telephonesLength, setTelephonesLength] = useState(0);
   const [telephones, setTelephones] = useState([]);
 
@@ -40,7 +39,7 @@ const Patients = ({ navigation, route }) => {
     async function loadData() {
       const patientResponse = await api.get(`patients/${patient_id}`);
 
-      setPatientName(patientResponse.data.name);
+      setPatientInformation(patientResponse.data);
 
       try {
         const telephoneResponse = await api.get(`telephones?owner=${patient_id}`);
@@ -64,6 +63,13 @@ const Patients = ({ navigation, route }) => {
   };
 
   async function handleDeleteTelephoneButton(telephone_id) {
+    if (telephone_id === patientInformation.preferred_phone) {
+      await api.put(`patients/${patient_id}`, {
+        name: patientInformation.name,
+        preferred_phone: '',
+      });
+    }
+
     await api.delete(`telephones/${telephone_id}`);
 
     setTelephonesLength(telephonesLength - 1);
@@ -93,7 +99,7 @@ const Patients = ({ navigation, route }) => {
       </LabelContainer>
 
       <InformationView>
-        <PatientName>{patientName}</PatientName>
+        <PatientName>{patientInformation.name}</PatientName>
       </InformationView>
 
       <LabelContainer>
