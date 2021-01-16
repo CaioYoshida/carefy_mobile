@@ -37,15 +37,40 @@ const Appointment = ({ navigation }) => {
     }
 
     loadData();
-  }, [])
+  }, []);
+
+  async function handleSearchButton() {
+    const formattedSearchDate = format(date, "yyyy'-'MM'-'dd");
+    switch (searchOption) {
+      case 'none':
+        const noneResponse = await api.get('appointments');
+
+        setAppointments(noneResponse.data);
+        break;
+
+      case 'toDate':
+        const toDateResponse = await api
+          .get(`appointments?toDate=${formattedSearchDate}`);
+
+        setAppointments(toDateResponse.data);
+        break;
+
+      case 'fromDate':
+        const fromDateResponse = await api
+          .get(`appointments?fromDate=${formattedSearchDate}`);
+
+        setAppointments(fromDateResponse.data);
+        break;
+    }
+  }
 
   async function hanldeAddAppointmentButton() {
     navigation.navigate('AppointmentForm', { appointment_id: '' });
-  }
+  };
 
   async function handleAppointmentButton(appointment_id) {
     navigation.navigate('Appointment', { appointment_id })
-  }
+  };
 
   return (
     <Background>
@@ -68,7 +93,7 @@ const Appointment = ({ navigation }) => {
           onChangeDate={setDate}
         />
 
-        <SearchButton>
+        <SearchButton onPress={handleSearchButton}>
           <FontAwesome  name="search" color="#fff" size={20} />
         </SearchButton>
       </DatePickerContainer>
