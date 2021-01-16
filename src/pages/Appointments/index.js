@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FlatList } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 
 import api from '../../services/api';
@@ -38,14 +38,6 @@ const Appointment = ({ navigation }) => {
 
     loadData();
   }, [])
-
-  const dateFormatted = useMemo(
-    () =>
-      format(date, "MMMM dd',' yyyy", {
-        locale: pt,
-      }),
-    [date],
-  );
 
   async function hanldeAddAppointmentButton() {
     navigation.navigate('AppointmentForm', { appointment_id: '' });
@@ -101,7 +93,9 @@ const Appointment = ({ navigation }) => {
             </InformationContainer>
 
             <DateContainer>
-              <Date>{dateFormatted}</Date>
+              <Date>
+                {format(parseISO(item.start), "MMMM dd',' yyyy", {locale: pt})}
+              </Date>
             </DateContainer>
           </AppointmentContainer>
         )}
