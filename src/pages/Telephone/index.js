@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
+import api from '../../services/api';
 
 import Background from '../../components/Background';
 import Input from '../../components/Input';
@@ -14,12 +16,47 @@ import {
 } from './styles';
 
 const Telephone = ({ navigation, route }) => {
-  const { telephone_id } = route.params;
+  const { telephone_id, owner_id } = route.params;
   const [description, setDescription] = useState('');
   const [areaCode, setAreaCode] = useState('');
   const [number, setNumber] = useState('');
 
-  async function handleSaveButton() {};
+  useEffect(() => {
+    async function loadData() {
+      if (telephone_id !== '') {
+        const { data } = await api.get(`telephones/${telephone_id}`);
+
+        setDescription(data.description);
+        setAreaCode(data.area_code);
+        setNumber(data.number);
+      }
+    }
+
+    loadData();
+  }, [])
+
+  async function handleSaveButton() {
+    if (telephone_id !== '') {
+      await api.put(`telephones/${telephone_id}`, {
+        description,
+        area_code: areaCode,
+        number
+      });
+
+      navigation.goBack();
+    } else {
+      await api.post('telephones', {
+        description,
+        area_code: areaCode,
+        number,
+        owner_id
+      })
+
+      setDescription('');
+      setAreaCode('');
+      setNumber('');
+    }
+  };
 
   return (
     <Background>

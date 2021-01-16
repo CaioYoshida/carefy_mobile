@@ -51,11 +51,11 @@ const Patients = ({ navigation, route }) => {
   }, []);
 
   async function handleAddTelephoneButton(telephone_id) {
-    navigation.navigate('Telephone', { telephone_id });
+    navigation.navigate('Telephone', { telephone_id, owner_id: patient_id });
   };
 
   async function handleEditTelphoneButton(telephone_id) {
-    navigation.navigate('Telephone', { telephone_id });
+    navigation.navigate('Telephone', { telephone_id, owner_id: patient_id });
   };
 
   async function handleDeleteTelephoneButton() {};

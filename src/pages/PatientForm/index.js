@@ -41,6 +41,8 @@ const Telephone = ({ navigation, route }) => {
         name,
         preferred_phone: patientInformation.preferred_phone
       });
+
+      navigation.goBack();
     } else {
       await api.post('patients', {
         name,
