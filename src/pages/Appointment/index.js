@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { format, parseISO } from 'date-fns';
+import pt from 'date-fns/locale/pt';
+
+import api from '../../services/api';
 
 import {
   LabelContainer,
@@ -16,6 +20,17 @@ import Background from '../../components/Background';
 
 const Patients = ({ navigation, route }) => {
   const { appointment_id } = route.params;
+  const [appointment, setAppointment] = useState();
+
+  useEffect(() => {
+    async function loadData() {
+      const { data } = await api.get(`appointments/${appointment_id}`);
+
+      setAppointment(data);
+    }
+
+    loadData();
+  }, []);
 
   async function handleEditAppointmentButton() {
     navigation.navigate('AppointmentForm', { appointment_id })
@@ -24,28 +39,34 @@ const Patients = ({ navigation, route }) => {
   return (
     <Background>
 
-      <LabelContainer>
-        <FontAwesome name="user" color="#000" size={20}/>
-        <Label>Patient</Label>
-      </LabelContainer>
-      <InformationView>
-        <PatientName>Caio Yoshida</PatientName>
-      </InformationView>
+      {appointment && (
+        <>
+          <LabelContainer>
+            <FontAwesome name="user" color="#000" size={20}/>
+            <Label>Patient</Label>
+          </LabelContainer>
+          <InformationView>
+            <PatientName>{appointment.patient_id}</PatientName>
+          </InformationView>
 
-      <LabelContainer>
-        <FontAwesome name="user-md" color="#000" size={20}/>
-        <Label>Phisician</Label>
-      </LabelContainer>
-      <InformationView>
-        <PatientName>Joao Carvalho</PatientName>
-      </InformationView>
+          <LabelContainer>
+            <FontAwesome name="user-md" color="#000" size={20}/>
+            <Label>Phisician</Label>
+          </LabelContainer>
+          <InformationView>
+            <PatientName>{appointment.phisician_id}</PatientName>
+          </InformationView>
 
-      <LabelContainer>
-        <Label>Date</Label>
-      </LabelContainer>
-      <InformationView>
-        <PatientName>25/01/2021 15:00</PatientName>
-      </InformationView>
+          <LabelContainer>
+            <Label>Date</Label>
+          </LabelContainer>
+          <InformationView>
+            <PatientName>
+              {format(parseISO(appointment.start), "MMMM dd',' yyyy", {locale: pt})}
+            </PatientName>
+          </InformationView>
+        </>
+      )}
 
       <ButtonsContainer>
         <EditButtonContainer
