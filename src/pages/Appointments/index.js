@@ -51,17 +51,25 @@ const Appointment = ({ navigation }) => {
         break;
 
       case 'toDate':
-        const toDateResponse = await api
-          .get(`appointments?toDate=${formattedSearchDate}`);
+        try {
+          const toDateResponse = await api
+            .get(`appointments?toDate=${formattedSearchDate}`);
 
-        setAppointments(toDateResponse.data);
+          setAppointments(toDateResponse.data);
+        } catch (error) {
+          setAppointments([]);
+        }
         break;
 
       case 'fromDate':
-        const fromDateResponse = await api
-          .get(`appointments?fromDate=${formattedSearchDate}`);
+        try {
+          const fromDateResponse = await api
+            .get(`appointments?fromDate=${formattedSearchDate}`);
 
-        setAppointments(fromDateResponse.data);
+          setAppointments(fromDateResponse.data);
+        } catch (error) {
+          setAppointments([]);
+        }
         break;
     }
   }
